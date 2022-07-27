@@ -32,15 +32,15 @@ marco.adicionarLancamento(new Lancamento("Alimentação", "despesa", 1000));
 marco.adicionarLancamento(new Lancamento("Condominio", "despesa", 400));
 
 const abril = new Mes("abril");
-marco.adicionarLancamento(new Lancamento("Salário", "receita", 4000));
-marco.adicionarLancamento(new Lancamento("Aluguel", "despesa", 1200));
-marco.adicionarLancamento(new Lancamento("Conta de Luz", "despesa", 200));
-marco.adicionarLancamento(new Lancamento("Conta de Água", "despesa", 100));
-marco.adicionarLancamento(new Lancamento("Internet", "despesa", 200));
-marco.adicionarLancamento(new Lancamento("Transporte", "despesa", 500));
-marco.adicionarLancamento(new Lancamento("Lazer", "despesa", 800));
-marco.adicionarLancamento(new Lancamento("Alimentação", "despesa", 1000));
-marco.adicionarLancamento(new Lancamento("Condominio", "despesa", 400));
+abril.adicionarLancamento(new Lancamento("Salário", "receita", 4000));
+abril.adicionarLancamento(new Lancamento("Aluguel", "despesa", 1200));
+abril.adicionarLancamento(new Lancamento("Conta de Luz", "despesa", 200));
+abril.adicionarLancamento(new Lancamento("Conta de Água", "despesa", 100));
+abril.adicionarLancamento(new Lancamento("Internet", "despesa", 200));
+abril.adicionarLancamento(new Lancamento("Transporte", "despesa", 500));
+abril.adicionarLancamento(new Lancamento("Lazer", "despesa", 800));
+abril.adicionarLancamento(new Lancamento("Alimentação", "despesa", 1000));
+abril.adicionarLancamento(new Lancamento("Condominio", "despesa", 400));
 
 const ano = new Ano();
 ano.adicionarMes(janeiro);
@@ -54,3 +54,48 @@ janeiro.adicionarLancamento(new Lancamento("Escola", "despesa", 500));
 ano.calcularSaldo();
 
 console.log(ano.meses);
+
+function addElement (parent, elementType, text) {
+    const element = document.createElement(elementType);
+    if (text !== "" && text !== undefined && text !== null) {
+        element.innerText = text;
+    }
+    parent.appendChild(element);
+}
+
+function redenrizar () {
+    const app = document.getElementById("app");
+    if (app.firstChild) {
+        app.firstChild.remove();
+    }
+    const painel = document.createElement("div");
+    for (const mes of ano.meses) {
+        addElement(painel, "h3", mes.nome);
+        for (const lancamento of mes.lancamentos) {
+            const detalhesLancamento = lancamento.tipo + " " + lancamento.categoria + " " + lancamento.valor;
+            addElement(painel, "p", detalhesLancamento);
+        }
+        addElement(painel, "h4", mes.totalizador.saldo);
+        addElement(painel, "hr");
+    }
+    app.appendChild(painel);
+}
+
+redenrizar();
+
+function adicionarLancamento () {
+    const mes = document.getElementById("mes");
+    const categoria = document.getElementById("categoria");
+    const tipo = document.getElementById("tipo");
+    const valor = document.getElementById("valor");
+    ano.adicionarLancamento(mes.value, new Lancamento(categoria.value, tipo.value, parseFloat(valor.value)));
+    ano.calcularSaldo();
+    redenrizar();
+    mes.value= "";
+    categoria.value = "";
+    tipo.value = "";
+    valor.value = "";
+}
+
+const botao = document.getElementById("botao");
+botao.addEventListener("click", adicionarLancamento);
