@@ -1,10 +1,10 @@
 class Mes {
 
-    constructor(nome, saldoInicial) {
+    constructor(nome) {
         if (nome === "") throw new Error("Mês Inválido: o nome é obrigatório");
         this.nome = nome;
-        this.saldoInicial = saldoInicial;
-        this.totalizador = { saldo: 0, saldoInicial, juros: 0, rendimentos: 0, receitas: 0, despesas: 0, distribuicaoDeDespesas: [] };
+        this.saldoInicial = 0;
+        this.totalizador = { saldo: 0, juros: 0, rendimentos: 0, receitas: 0, despesas: 0, distribuicaoDeDespesas: [] };
         this.lancamentos = [];
     }
 
@@ -13,6 +13,7 @@ class Mes {
     }
 
     calcularSaldo() {
+        this.totalizador = { saldo: 0, juros: 0, rendimentos: 0, receitas: 0, despesas: 0, distribuicaoDeDespesas: [] };
         this.totalizador.saldo = this.saldoInicial;
         this.apurarReceitas();
         this.apurarDespesas();
